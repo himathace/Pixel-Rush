@@ -1,19 +1,20 @@
 #include <raylib.h>
 
 int main(void){
-    InitWindow(612,367,"Pixel game");
+    InitWindow(600,500,"Pixel game");
     
     SetTargetFPS(60);
 
-    Rectangle rec={100,200,20,20}; // x , y , width , height
+    Rectangle rec={0,480,20,40}; // x , y , width , height
     int speed=10; // player speed
-
-    Texture2D background=LoadTexture("background.jpg");
-
+    bool isJumping = false; // flag to track jumping
+    int jumpSpeed = -15; // initial jump speed
+    int gravity = 1; // gravity effect
+    int velocityY = 0; // vertical velocity
 
     while(!WindowShouldClose()){
 
-        
+        // Horizontal movement
         if(IsKeyDown(KEY_RIGHT) && rec.x+rec.width<GetScreenWidth()){ // move right
             rec.x+=speed;
         }
@@ -21,23 +22,31 @@ int main(void){
             rec.x-=speed;
         }
 
-        // if(IsKeyDown(KEY_UP) && rec.y>0){
-        //     rec.y-=speed;
-        // }
-        // if(IsKeyDown(KEY_DOWN) && rec.y+rec.height<GetScreenHeight()){  
-        //     rec.y+=speed;
-        // }
+        // Jump logic
+        if(IsKeyPressed(KEY_SPACE) && !isJumping){ // start jump
+            isJumping = true;
+            velocityY = jumpSpeed;
+        }
+
+        if(isJumping){
+            rec.y += velocityY; // apply vertical velocity
+            velocityY += gravity; // apply gravity
+
+            // Stop jumping when rectangle lands
+            if(rec.y > 480){
+                rec.y = 480; // reset to ground level
+                isJumping = false;
+                velocityY = 0;
+            }
+        }
 
         BeginDrawing();
-
         ClearBackground(BLACK);
-        DrawRectangleRec(rec,RED);
-        DrawTexture(background,0,0,WHITE);
+        DrawRectangleRec(rec,WHITE);
 
         EndDrawing();        
     }
 
-    UnloadTexture(background);
     CloseWindow();
     return 0;
 }
