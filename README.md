@@ -30,9 +30,9 @@ C:\w64devkit\x86_64-w64-mingw32
 
 
 ### 🚀 Step 3: Launch the Compiler
-Open C:\w64devkit
+- Open C:\w64devkit
 
-Run w64devkit.exe — this opens a terminal window with GCC ready.
+- Run w64devkit.exe — this opens a terminal window with GCC ready.
 
 ### 🛠️ Step 4: Compile a raylib Program
 - In the terminal, compile your .c file like this:
